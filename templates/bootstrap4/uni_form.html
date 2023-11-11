@@ -1,0 +1,46 @@
+{% load crispy_forms_filters %}
+{% load i18n %}
+{% load static %}
+
+<form {% if form_id %}id="{{ form_id }}"{% endif %} class="uniForm {% if form_class %}{{ form_class }}{% endif %}" method="{{ form_method|default:"post" }}" action="{{ form_action }}"{% if form_tag %} enctype="multipart/form-data"{% endif %}>
+    {% csrf_token %}
+    <div class="uniForm{% if form.error_css_class %} {{ form.error_css_class }}{% endif %}">
+        {% if form.helper.form_show_errors %}
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors|join:" " }}
+                </div>
+            {% endif %}
+        {% endif %}
+        
+        {% if form.helper.layout %}
+            {% crispy form form.helper.layout %}
+        {% else %}
+            {% if form_helper.inputs %}
+                {% for input in form_helper.inputs %}
+                    {{ input|safe }}
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+    </div>
+
+    {% if form.helper.include_media %}
+        <div class="uniForm {% if form.form_id %} {{ form.form_id }}{% endif %} media">
+            <h2>{% trans "Media" %}</h2>
+            {{ form.media }}
+        </div>
+    {% endif %}
+    
+    <div class="uniForm submit-row">
+        {% if form_helper.inputs %}
+            <div class="form-row">
+                {% for input in form_helper.inputs %}
+                    {{ input|safe }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if form.helper.attrs.submit or form.helper.inputs %}
+            <input type="submit" value="{% trans 'Save' %}" class="btn btn-primary" />
+        {% endif %}
+    </div>
+</form>

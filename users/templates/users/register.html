@@ -1,0 +1,28 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Rejoignez nous</legend>
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {{ form.email.label_tag }}
+                {{ form.email }}
+                {{ form.password1.label_tag }}
+                {{ form.password1 }}
+                {{ form.password2.label_tag }}
+                {{ form.password2 }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">S'enregistrer</button>
+            </div>
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Avez-vous déjà un compte? <a class="ml-2" href="{% url 'login' %}">Se COnnecter</a>
+            </small>
+        </div>
+    </div>
+{% endblock content %}
